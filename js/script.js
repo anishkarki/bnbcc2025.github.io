@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===================================================================
-  // INTERACTIVE COMPONENTS
+  // STATS COUNTERS
   // ===================================================================
   function initializeStatsCounters() {
     const statsSection = document.querySelector("#facts");
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const animateCounter = (el) => {
       const target = parseInt(el.dataset.target, 10);
       let count = 0;
-      const increment = Math.ceil(target / 200); // 200 steps
+      const increment = Math.ceil(target / 200);
 
       const timer = setInterval(() => {
         count += increment;
@@ -106,6 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(statsSection);
   }
 
+  // ===================================================================
+  // CLIENT COUNTER
+  // ===================================================================
   function initializeClientCounter() {
     const counterElement = document.getElementById("client-count");
     if (!counterElement) return;
@@ -134,6 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(counterElement);
   }
 
+  // ===================================================================
+  // HOW IT WORKS ANIMATION
+  // ===================================================================
   function initializeHowItWorksAnimation() {
     const steps = document.querySelectorAll(".hiw-step");
     if (steps.length === 0) return;
@@ -150,32 +156,26 @@ document.addEventListener('DOMContentLoaded', () => {
     steps.forEach(step => observer.observe(step));
   }
 
+  // ===================================================================
+  // FAQ ACCORDION
+  // ===================================================================
   function initializeFaq() {
     const faqQuestions = document.querySelectorAll(".faq-question");
     if (faqQuestions.length === 0) return;
 
-    let isMobile = window.innerWidth < 992;
-
-    function toggleQuestion(q) {
-      const targetAnswer = document.querySelector(q.dataset.target);
-      if (!targetAnswer) return;
-
-      // Close all first
-      document.querySelectorAll(".faq-question.active, .faq-answer.active")
-        .forEach(el => el.classList.remove("active"));
-
-      // Open clicked question
-      q.classList.add("active");
-      targetAnswer.classList.add("active");
-    }
-
     faqQuestions.forEach(q => {
-      q.addEventListener("click", () => toggleQuestion(q));
-    });
+      q.addEventListener("click", () => {
+        const targetAnswer = document.querySelector(q.dataset.target);
+        if (!targetAnswer) return;
 
-    // Update mobile/desktop behavior on resize
-    window.addEventListener("resize", () => {
-      isMobile = window.innerWidth < 992;
+        // Close all questions & answers first
+        document.querySelectorAll(".faq-question.active, .faq-answer.active")
+          .forEach(el => el.classList.remove("active"));
+
+        // Open clicked question
+        q.classList.add("active");
+        targetAnswer.classList.add("active");
+      });
     });
   }
 
